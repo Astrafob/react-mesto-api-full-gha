@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 51.250.64.13
 
-Frontend https://...
+Frontend https://mesto.astra.nomoredomains.rocks
 
-Backend https://...
+Backend https://api.mesto.astra.nomoredomains.rocks
