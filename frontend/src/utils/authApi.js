@@ -28,12 +28,13 @@ class authApi {
     }).then(this._checkResponse);
   }
 
-  getContent(token) {
+  getContent(jwt) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
+        'Accept': 'application/json',
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${jwt}`
       }
     }).then(this._checkResponse);
   }

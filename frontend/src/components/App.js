@@ -31,6 +31,21 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getContent(jwt)
+        .then((data) => {
+          setLoggedIn(true);
+          setEmailUser(data.email);
+          navigate('/', { replace: true });
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [navigate])
+
+  useEffect(() => {
     if (loggedIn) {
       Promise.all([api.getPersonInfo(), api.getCards()])
         .then(([dataUser, card]) => {
@@ -83,21 +98,6 @@ function App() {
     navigate('/sign-in');
   }
 
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.getContent(jwt)
-        .then(({ data }) => {
-          setLoggedIn(true);
-          setEmailUser(data.email);
-          navigate('/', { replace: true });
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-  }, [navigate])
-
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -141,7 +141,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     api.changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {

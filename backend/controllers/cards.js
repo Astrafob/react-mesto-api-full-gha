@@ -31,9 +31,9 @@ const deleteCards = (req, res, next) => {
       if (card.owner.toString() !== owner) {
         throw new ForbiddenError('not enough rights');
       }
-      return card.deleteOne()
-        .then((cardData) => {
-          res.send({ data: cardData });
+      return Card.deleteOne(card)
+        .then(() => {
+          res.send(card);
         });
     })
     .catch((err) => {
