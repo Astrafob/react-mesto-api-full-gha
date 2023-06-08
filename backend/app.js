@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-// const cors = require('cors');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
@@ -11,17 +11,18 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
+app.use(cors({
+  origin: [
+    'http://localhost:3001',
+    'https://mesto.astra.nomoredomains.rocks',
+  ],
+  credentials: true,
+  maxAge: 30,
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
-// app.use(cors());
-//   {
-//   origin: [
-//     'http://localhost:3001',
-//     'https://mesto.astra.nomoredomains.rocks',
-//   ],
-//   credentials: true,
-// }
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
