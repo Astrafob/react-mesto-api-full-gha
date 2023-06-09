@@ -14,7 +14,6 @@ export const authApiConfig = {
   // url: 'http://localhost:3000',
   url: 'https://api.mesto.astra.nomoredomains.rocks',
   headers: {
-    // 'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json'
   }
 }

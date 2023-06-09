@@ -31,21 +31,6 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.getContent(jwt)
-        .then((data) => {
-          setLoggedIn(true);
-          setEmailUser(data.email);
-          navigate('/', { replace: true });
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-  }, [navigate])
-
-  useEffect(() => {
     if (loggedIn) {
       Promise.all([api.getPersonInfo(), api.getCards()])
         .then(([dataUser, card]) => {
@@ -97,6 +82,21 @@ function App() {
     setLoggedIn(false);
     navigate('/sign-in');
   }
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getContent(jwt)
+        .then((data) => {
+          setLoggedIn(true);
+          setEmailUser(data.email);
+          navigate('/', { replace: true });
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [navigate])
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);

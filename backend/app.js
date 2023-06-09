@@ -6,6 +6,7 @@ const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const router = require('./routes');
 const handleErrors = require('./middlewares/handleErrors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 
@@ -23,10 +24,13 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
+app.use(requestLogger);
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
 app.use('/', router);
+
+app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
 
