@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -8,6 +9,7 @@ const router = require('./routes');
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/expressRateLimit');
+const { DB_ADDRESS } = require('./config');
 
 const { PORT = 3000 } = process.env;
 
@@ -27,7 +29,13 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(requestLogger);
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
+mongoose.connect(DB_ADDRESS);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use('/', router);
 
