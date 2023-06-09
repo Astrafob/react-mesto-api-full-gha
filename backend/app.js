@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const router = require('./routes');
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { limiter } = require('./middlewares/expressRateLimit');
 
 const { PORT = 3000 } = process.env;
 
@@ -20,7 +21,7 @@ app.use(cors({
   credentials: true,
   maxAge: 30,
 }));
-
+app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
