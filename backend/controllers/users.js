@@ -42,7 +42,7 @@ const getUserById = (req, res, next) => {
     });
 };
 
-const createUsers = (req, res, next) => {
+const createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
@@ -68,14 +68,14 @@ const createUsers = (req, res, next) => {
     });
 };
 
-const updateUsers = (req, res, next) => {
+const updateUser = (req, res, next) => {
   const { name, about } = req.body;
   const owner = req.user._id;
 
   User.findByIdAndUpdate(owner, { name, about }, { new: true, runValidators: true })
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         return next(new BadRequestError('invalid data to update dataUser'));
       } if (err.name === 'DocumentNotFoundError') {
         return next(new NotFoundError(`${owner} is not found`));
@@ -91,7 +91,7 @@ const updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         return next(new BadRequestError('invalid data to update avatarUser'));
       } if (err.name === 'DocumentNotFoundError') {
         return next(new NotFoundError(`${owner} is not found`));
@@ -110,11 +110,12 @@ const login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
-      res.cookie(
-        'jwt',
-        token,
-        { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true },
-      );
+      // Хочу чуть позже реализовать передачу токена в куках, по этой причине пока оставлю код
+      // res.cookie(
+      //   'jwt',
+      //   token,
+      //   { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true },
+      // );
       return res.send({ token });
     })
     .catch(next);
@@ -124,8 +125,8 @@ module.exports = {
   getUsers,
   getUser,
   getUserById,
-  createUsers,
-  updateUsers,
+  createUser,
+  updateUser,
   updateAvatar,
   login,
 };

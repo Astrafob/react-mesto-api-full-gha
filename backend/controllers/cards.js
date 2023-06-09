@@ -7,7 +7,7 @@ const getCards = (req, res, next) => {
     .catch(next);
 };
 
-const createCards = (req, res, next) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
 
@@ -21,7 +21,7 @@ const createCards = (req, res, next) => {
     });
 };
 
-const deleteCards = (req, res, next) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const owner = req.user._id;
 
@@ -94,8 +94,8 @@ const dislikeCard = (req, res, next) => {
 
 module.exports = {
   getCards,
-  createCards,
-  deleteCards,
+  createCard,
+  deleteCard,
   likeCard,
   dislikeCard,
 };
