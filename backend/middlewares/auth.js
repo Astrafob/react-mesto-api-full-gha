@@ -5,7 +5,6 @@ const { UnauthorizedError } = require('../utils/errors');
 
 module.exports = (req, res, next) => {
   let token = '';
-  // Хочу чуть позже реализовать передачу токена в куках, по этой причине пока оставлю код
   // if (req.cookies.jwt !== undefined) {
   //   token = req.cookies.jwt;
   // } else {

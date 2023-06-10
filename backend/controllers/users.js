@@ -110,7 +110,6 @@ const login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
-      // Хочу чуть позже реализовать передачу токена в куках, по этой причине пока оставлю код
       // res.cookie(
       //   'jwt',
       //   token,
